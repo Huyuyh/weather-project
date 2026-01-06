@@ -6,12 +6,15 @@ import CurrentWeather from './components/cards/CurrentWeather';
 import DailyForecast from './components/cards/DailyForecast';
 import HourlyForecast from './components/cards/HourlyForecast';
 import LocationDropdown from './components/dropdowns/LocationDropdown';
+import MapTypeDropdown from './components/dropdowns/MapTypeDropdown';
 import Map from './components/Map';
+import MapLegend from './components/MapLegend';
 import type { Coords } from './types';
 
 function App() {
   const [coordinates, setCoords] = useState<Coords>({ lat: 50, lon: 25 });
   const [location, setLocation] = useState('Tokyo');
+  const [mapType, setMapType] = useState('clouds_new');
 
   const { data: geocode } = useQuery({
     queryKey: ['geocode', location],
@@ -30,8 +33,21 @@ function App() {
 
   return (
     <div className="flex flex-col gap-8">
-      <LocationDropdown location={location} setLocation={setLocation} />
-      <Map coords={coords} onMapClick={onMapClick} />
+      <div className="flex gap-4">
+        <div className="flex gap-4">
+          <h1 className="text-2xl font-semibold">Location: </h1>
+          <LocationDropdown location={location} setLocation={setLocation} />
+        </div>
+        <div className="flex gap-4">
+          <h1 className="text-2xl font-semibold">Map Type: </h1>
+          <MapTypeDropdown mapType={mapType} setMapType={setMapType} />
+        </div>
+      </div>
+      <div className="relative">
+        <Map coords={coords} onMapClick={onMapClick} mapType={mapType} />
+        <MapLegend mapType={mapType} />
+      </div>
+
       <CurrentWeather coords={coords} />
       <HourlyForecast coords={coords} />
       <DailyForecast coords={coords} />
