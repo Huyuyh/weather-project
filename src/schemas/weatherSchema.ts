@@ -39,10 +39,10 @@ export const weatherSchema = z.object({
       dew_point: z.number(),
       uvi: z.number(),
       clouds: z.number(),
-      visibility: z.number(),
+      visibility: z.number().optional(),
       wind_speed: z.number(),
       wind_deg: z.number(),
-      wind_gust: z.number(),
+      wind_gust: z.number().optional(),
       weather: z.array(
         z.object({
           id: z.number(),
@@ -54,6 +54,7 @@ export const weatherSchema = z.object({
       pop: z.number(),
     })
   ),
+
   daily: z.array(
     z.object({
       dt: z.number(),
