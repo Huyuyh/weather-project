@@ -16,7 +16,7 @@ type Props = {
 
 export default function Map({ coords, onMapClick, mapType }: Props) {
   return (
-    <MapContainer center={[coords.lat, coords.lon]} zoom={5} style={{ width: '100%', height: '500px' }}>
+    <MapContainer center={[coords.lat, coords.lon]} zoom={5} minZoom={4} style={{ width: '100%', height: '500px' }}>
       <MapClick onMapClick={onMapClick} coords={coords} />
       {/* <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
