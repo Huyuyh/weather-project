@@ -21,12 +21,12 @@ export default function SidePanel(props: Props) {
   return (
     <div
       className={clsx(
-        'fixed top-0 right-0 h-screen w-90 shadow-md bg-sidebar z-1001 py-8 px-4 overflow-y-scroll transition-transform duration-300',
+        'fixed top-0 right-0 h-screen w-(--sidebar-width) shadow-md bg-sidebar z-1001 py-8 px-4 overflow-y-scroll transition-transform duration-300 lg:translate-0!',
         isSidePanelOpen ? 'translate-0' : 'translate-x-full'
       )}
     >
       <button onClick={() => setIsSidePanelOpen(false)}>
-        <Chevron className="size-8 invert" />
+        <Chevron className="size-8 invert -ml-2 lg:hidden" />
       </button>
       <Suspense fallback={<SidePanelSkeleton />}>
         <AirPollution {...props} />
