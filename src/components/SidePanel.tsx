@@ -2,18 +2,33 @@ import { getAirPollution } from '@/api';
 import type { Coords } from '@/types';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import clsx from 'clsx';
-import { Suspense } from 'react';
+import { Suspense, type Dispatch, type SetStateAction } from 'react';
 import Card from './cards/Card';
+import SidePanelSkeleton from './skeletons/SidePanelSkeleton';
 import { Slider } from './ui/slider';
+import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
+import Chevron from '/src/assets/ChevronLeft.svg?react';
+import Information from '/src/assets/information.svg?react';
 
 type Props = {
   coords: Coords;
+  isSidePanelOpen: boolean;
+  setIsSidePanelOpen: Dispatch<SetStateAction<boolean>>;
 };
 
 export default function SidePanel(props: Props) {
+  const { isSidePanelOpen, setIsSidePanelOpen } = props;
   return (
-    <div className="fixed top-0 right-0 h-screen w-90 shadow-md bg-sidebar z-1001 py-8 px-4 overflow-y-scroll">
-      <Suspense>
+    <div
+      className={clsx(
+        'fixed top-0 right-0 h-screen w-90 shadow-md bg-sidebar z-1001 py-8 px-4 overflow-y-scroll transition-transform duration-300',
+        isSidePanelOpen ? 'translate-0' : 'translate-x-full'
+      )}
+    >
+      <button onClick={() => setIsSidePanelOpen(false)}>
+        <Chevron className="size-8 invert" />
+      </button>
+      <Suspense fallback={<SidePanelSkeleton />}>
         <AirPollution {...props} />
       </Suspense>
     </div>
@@ -31,7 +46,21 @@ function AirPollution({ coords }: Props) {
       <h1 className="text-2xl font-semibold">Air Pollution: </h1>
 
       <h1 className="text-5xl font-semibold">{data.list[0].main.aqi}</h1>
-      <h1 className="text-2xl font-semibold">AQI</h1>
+      <div className="flex items-center gap-2">
+        <h1 className="text-2xl font-semibold">AQI</h1>
+        <Tooltip>
+          <TooltipTrigger>
+            <Information className="size-4 invert" />
+          </TooltipTrigger>
+          <TooltipContent className="z-2000">
+            <p className="max-w-xs">
+              {' '}
+              Air Quality Index. Possible values: 1, 2, 3, 4, 5. Where 1 = Good, 2 = Fair, 3 = Moderate, 4 = Poor, 5 =
+              Very Poor.
+            </p>
+          </TooltipContent>
+        </Tooltip>
+      </div>
 
       {Object.entries(data.list[0].components).map(([key, value]) => {
         const pollutant = airQualityRanges[key.toUpperCase() as keyof typeof airQualityRanges];
@@ -68,7 +97,17 @@ function AirPollution({ coords }: Props) {
             childrenClassName="flex flex-col gap-3"
           >
             <div className="flex justify-between">
-              <span className="text-lg font-bold capitalize">{key}</span>
+              <div className="flex items-center gap-2">
+                <span className="text-lg font-bold capitalize">{key}</span>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <Information className="size-4 invert" />
+                  </TooltipTrigger>
+                  <TooltipContent className="z-2000">
+                    <p className="max-w-xs">Concentration of {pollutantNameMapping[key.toUpperCase() as Pollutant]}</p>
+                  </TooltipContent>
+                </Tooltip>
+              </div>
               <span className="text-lg font-semibold">{value}</span>
             </div>
             <Slider min={0} max={max} value={[value]} />
