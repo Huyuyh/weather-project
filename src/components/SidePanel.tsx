@@ -26,7 +26,7 @@ export default function SidePanel(props: Props) {
       )}
     >
       <button onClick={() => setIsSidePanelOpen(false)}>
-        <Chevron className="size-8 invert -ml-2 lg:hidden" />
+        <Chevron className="size-8  -ml-2 lg:hidden" />
       </button>
       <Suspense fallback={<SidePanelSkeleton />}>
         <AirPollution {...props} />
@@ -44,13 +44,12 @@ function AirPollution({ coords }: Props) {
   return (
     <div className="flex flex-col gap-4">
       <h1 className="text-2xl font-semibold">Air Pollution: </h1>
-
       <h1 className="text-5xl font-semibold">{data.list[0].main.aqi}</h1>
       <div className="flex items-center gap-2">
         <h1 className="text-2xl font-semibold">AQI</h1>
         <Tooltip>
           <TooltipTrigger>
-            <Information className="size-4 invert" />
+            <Information className="size-4 " />
           </TooltipTrigger>
           <TooltipContent className="z-2000">
             <p className="max-w-xs">
@@ -101,7 +100,7 @@ function AirPollution({ coords }: Props) {
                 <span className="text-lg font-bold capitalize">{key}</span>
                 <Tooltip>
                   <TooltipTrigger>
-                    <Information className="size-4 invert" />
+                    <Information className="size-4 " />
                   </TooltipTrigger>
                   <TooltipContent className="z-2000">
                     <p className="max-w-xs">Concentration of {pollutantNameMapping[key.toUpperCase() as Pollutant]}</p>
@@ -118,6 +117,7 @@ function AirPollution({ coords }: Props) {
             <div className="flex justify-between">
               {Object.keys(pollutant).map((quality) => (
                 <span
+                  key={quality}
                   className={clsx(
                     'px-2 py-1 rounded-md text-xs font-medium',
                     quality === currentLevel ? qualityColor : 'bg-muted text-muted-foreground'

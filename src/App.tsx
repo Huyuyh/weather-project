@@ -7,6 +7,7 @@ import DailyForecast from './components/cards/DailyForecast';
 import HourlyForecast from './components/cards/HourlyForecast';
 import LocationDropdown from './components/dropdowns/LocationDropdown';
 import MapTypeDropdown from './components/dropdowns/MapTypeDropdown';
+import LightDarkToggle from './components/LightDarkToggle';
 import Map from './components/Map';
 import MapLegend from './components/MapLegend';
 import MobileHeader from './components/MobileHeader';
@@ -42,7 +43,7 @@ function App() {
   return (
     <>
       <MobileHeader setIsSidePanelOpen={setIsSidePanelOpen} />
-      <div className="flex flex-col gap-8 pt-4 p-8 xs:pt-8 w-full lg:w-[calc(100dvw-var(--sidebar-width))] 2xl:h-screen">
+      <div className="flex flex-col gap-8 pt-4 p-8 xs:pt-8 w-full lg:w-[calc(100dvw-var(--sidebar-width))] 2xl:h-screen 2xl:min-h-280">
         <div className="flex flex-col xs:flex-row gap-4 xs:gap-8">
           <div className="flex flex-col gap-2 md:flex-row md:gap-4">
             <h1 className="text-2xl font-semibold">Location: </h1>
@@ -52,9 +53,12 @@ function App() {
             <h1 className="text-2xl font-semibold">Map Type: </h1>
             <MapTypeDropdown mapType={mapType} setMapType={setMapType} />
           </div>
-          <button onClick={() => setIsSidePanelOpen(true)} className="hidden xs:block">
-            <Hamburger className="size-8 invert ml-auto lg:hidden" />
-          </button>
+          <div className="ml-auto flex gap-4 items-center">
+            <LightDarkToggle />
+            <button onClick={() => setIsSidePanelOpen(true)} className="hidden xs:block">
+              <Hamburger className="size-8  ml-auto lg:hidden" />
+            </button>
+          </div>
         </div>
         <div className="grid grid-cols-1 flex-1 min-h-0 gap-4 md:grid-cols-2 2xl:grid-cols-4 2xl:grid-rows-4">
           <div className="relative h-120 2xl:h-auto col-span-1 md:col-span-2 2xl:col-span-4 2xl:row-span-2 order-1">
