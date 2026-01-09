@@ -54,7 +54,9 @@ function App() {
             <MapTypeDropdown mapType={mapType} setMapType={setMapType} />
           </div>
           <div className="ml-auto flex gap-4 items-center">
-            <LightDarkToggle />
+            <div className="hidden xs:block">
+              <LightDarkToggle />
+            </div>
             <button onClick={() => setIsSidePanelOpen(true)} className="hidden xs:block">
               <Hamburger className="size-8  ml-auto lg:hidden" />
             </button>
@@ -80,7 +82,6 @@ function App() {
               <HourlyForecast coords={coords} />
             </Suspense>
           </div>
-
           <div className="col-span-1 md:col-span-2 2xl:row-span-1 order-5">
             <Suspense fallback={<AdditionalInfoSkeleton />}>
               <AdditionalInfo coords={coords} />
